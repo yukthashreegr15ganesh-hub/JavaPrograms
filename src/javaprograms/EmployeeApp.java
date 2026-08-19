@@ -32,11 +32,9 @@ class Employee {
 
         this.age = getValidAge(sc);
 
-        System.out.print("Enter the salary: ");
-        this.salary = Double.parseDouble(sc.nextLine());
-
-        // designation with validation - keeps asking until a valid choice is given
+        // designation decides the salary automatically
         this.designation = getValidDesignation(sc);
+        this.salary = getSalaryForDesignation(this.designation);
 
         System.out.println("Employee created successfully!\n");
     }
@@ -72,11 +70,11 @@ class Employee {
             input = sc.nextLine().trim();
 
             if (input.isEmpty()) {
-                System.out.println("!!! Designation cannot be empty. Please choose Product, Manager, or Tester. !!!");
+                System.out.println("!!! Designation cannot be empty. Please choose Programmer, Manager, or Tester. !!!");
                 continue;
             }
 
-            if (input.equalsIgnoreCase("Prgrammer")
+            if (input.equalsIgnoreCase("Programmer")
                     || input.equalsIgnoreCase("Manager")
                     || input.equalsIgnoreCase("Tester")) {
                 // capitalize first letter for consistent display
@@ -84,6 +82,20 @@ class Employee {
             }
 
             System.out.println("!!! Invalid designation \"" + input + "\". Valid options are: Programmer, Manager, Tester. !!!");
+        }
+    }
+
+    // helper method to assign salary based on designation
+    private double getSalaryForDesignation(String designation) {
+        switch (designation) {
+            case "Programmer":
+                return 20000;
+            case "Manager":
+                return 25000;
+            case "Tester":
+                return 15000;
+            default:
+                return 0;
         }
     }
 
@@ -96,8 +108,8 @@ class Employee {
         System.out.println("----- Employee Details -----");
         System.out.println("Name        : " + name);
         System.out.println("Age         : " + age);
-        System.out.println("Salary      : " + salary);
         System.out.println("Designation : " + designation);
+        System.out.println("Salary      : " + salary);
         System.out.println("-----------------------------\n");
     }
 
@@ -115,6 +127,23 @@ class Employee {
 }
 
 public class EmployeeApp {
+
+    // helper method to get a valid y/n answer from the user
+    private static boolean askYesNo(Scanner sc, String question) {
+        while (true) {
+            System.out.print(question + " (y/n): ");
+            String input = sc.nextLine().trim();
+
+            if (input.equalsIgnoreCase("y")) {
+                return true;
+            } else if (input.equalsIgnoreCase("n")) {
+                return false;
+            } else {
+                System.out.println("!!! Please enter only 'y' or 'n'. !!!");
+            }
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Employee emp = new Employee(); // using default constructor
@@ -131,7 +160,14 @@ public class EmployeeApp {
 
             switch (choice) {
                 case 1:
-                    emp.create(sc);
+                    // keep creating employees as long as the user says 'y'
+                    boolean createAgain;
+                    do {
+                        emp.create(sc);
+                        emp.display();
+                        createAgain = askYesNo(sc, "Do you want to create again?");
+                        System.out.println();
+                    } while (createAgain);
                     break;
                 case 2:
                     emp.display();
