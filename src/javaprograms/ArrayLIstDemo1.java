@@ -31,12 +31,7 @@ public class ArrayLIstDemo1 {
       System.out.println("Size of ArrayList after claering: " + list.size());
       System.out.println("Contains of Arryalist after clearing" + list);
       
-      
-      
-  	
-  	
-	
-	
+     
 	}
 
 }
