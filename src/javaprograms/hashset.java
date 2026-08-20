@@ -21,3 +21,7 @@ public class hashset {
 	        }
 	    }
 	}
+//int[] mumbers=[1234567890-]
+//for(int number:numbers){
+//set.add(number);
+//int target=34567
